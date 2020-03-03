@@ -5,7 +5,7 @@
       <mat-list-item *ngFor="let car of cars">
         <img mat-list-avatar src="{{car.giphyUrl}}" alt="{{car.name}}">
         <h3 mat-line>
-          <a mat-button [routerLink]="['/car-edit', car.id]">{{car.name}}</a>
+          <a mat-button [routerLink]="['/car-edit', car.id]">{{car.name}}<span *ngIf="car.owner">, Owner: {{car.owner.name}}</span></a>
         </h3>
       </mat-list-item>
     </mat-list>

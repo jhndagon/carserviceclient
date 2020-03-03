@@ -10,6 +10,14 @@
                  required name="name" #name>
         </mat-form-field>
       </mat-card-content>
+      <mat-form-field *ngIf="car.href">
+        <mat-label>Owner</mat-label>
+        <mat-select (selectionChange)="onSelectionChange($event)" [(value)]="car.ownerDni">
+          <mat-option *ngFor="let owner of owners" [value]="owner.dni">
+            {{owner.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
       <mat-card-actions>
         <button mat-raised-button color="primary" type="submit"
                 [disabled]="!carForm.form.valid">Save</button>

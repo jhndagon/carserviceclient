@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CarService } from '../shared/car/car.service';
 import { GiphyService } from '../shared/giphy/giphy.service';
 import { NgForm } from '@angular/forms';
+import { OwnerService } from '../shared/owner/owner.service';
 
 @Component({
   selector: 'app-car-edit',
@@ -15,10 +16,14 @@ export class CarEditComponent implements OnInit, OnDestroy {
 
   sub: Subscription;
 
+  owners: any[] = [];
+  selectedOwner: string = null;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private carService: CarService,
-              private giphyService: GiphyService) {
+              private giphyService: GiphyService,
+              private ownerService: OwnerService) {
   }
 
   ngOnInit() {
@@ -29,7 +34,14 @@ export class CarEditComponent implements OnInit, OnDestroy {
           if (car) {
             this.car = car;
             this.car.href = car._links.self.href;
+            this.car.ownerDni = car.ownerDni;
             this.giphyService.get(car.name).subscribe(url => car.giphyUrl = url);
+            this.ownerService.getAll().subscribe( (data: any) => {
+              const owners = data._embedded.owners;
+              if (owners) {
+                this.owners = owners;
+              }
+            } );
           } else {
             console.log(`Car with id '${id}' not found, returning to list`);
             this.gotoList();
@@ -48,6 +60,7 @@ export class CarEditComponent implements OnInit, OnDestroy {
   }
 
   save(form: NgForm) {
+    form["ownerDni"] = this.selectedOwner;
     this.carService.save(form).subscribe(result => {
       this.gotoList();
     }, error => console.error(error));
@@ -57,6 +70,10 @@ export class CarEditComponent implements OnInit, OnDestroy {
     this.carService.remove(href).subscribe(result => {
       this.gotoList();
     }, error => console.error(error));
+  }
+
+  onSelectionChange(event) {
+    this.selectedOwner = event.value;
   }
 }
 
