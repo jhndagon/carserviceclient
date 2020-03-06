@@ -26,9 +26,9 @@
     <mat-card-actions>
       <button mat-raised-button color="primary" type="submit"
               [disabled]="!ownerForm.form.valid">Save</button>
-      <button mat-raised-button color="secondary" (click)="remove(owner.href)"
-              *ngIf="owner.href" type="button">Delete</button>
-      <a mat-button routerLink="/car-list">Cancel</a>
+      <!-- <button mat-raised-button color="secondary" (click)="remove(owner.href)"
+              *ngIf="owner.href" type="button">Delete</button> -->
+      <a mat-button routerLink="/owner">Cancel</a>
     </mat-card-actions>
 
   </form>

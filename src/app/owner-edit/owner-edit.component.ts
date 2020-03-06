@@ -24,7 +24,7 @@ export class OwnerEditComponent implements OnInit {
     this.sub = this.route.params.subscribe( params => {
       const id = params['id'];
       if (id) {
-        this.ownerService.getByDni(id).subscribe(owner => {
+        this.ownerService.getByDni(id).subscribe((owner: any) => {
           this.owner.dni = owner._embedded.owners[0].dni;
           this.owner.name = owner._embedded.owners[0].name;
           this.owner.profession = owner._embedded.owners[0].profession;
@@ -44,10 +44,5 @@ export class OwnerEditComponent implements OnInit {
     }, error => console.error(error));
   }
 
-  remove(href) {
-    this.ownerService.remove(href).subscribe(result => {
-      this.gotoList();
-    }, error => console.error(error));
-  }
 
 }
